@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User, Category, Course, UserCourse, UserDetail } = require("../models")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
 
@@ -42,7 +42,6 @@ class Controller {
         username: username
       }
     }).then(result => {
-      console.log(result);
       if (!result) {
         res.redirect("/login?error=Tidak ada user ditemukan")
       } else {
@@ -53,7 +52,7 @@ class Controller {
           req.session.role = result.role
           req.session.userId = result.id
           if (result.role === "teacher") {
-            res.redirect("/course/add")
+            res.redirect("/course/list")
           } else if (result.role === "student") {
             res.redirect("/course")
           }
@@ -80,8 +79,46 @@ class Controller {
     res.render("student")
   }
 
+  static courseListTeacher(req, res) {
+    Course.findAll({
+      include: {
+        model: Category
+      }
+    })
+      .then(result => {
+        console.log(result);
+        res.render("teacher", { result })
+      }).catch(err => {
+        res.send(err)
+      })
+  }
+
   static formAddCourse(req, res) {
-    res.render("teacher")
+    Category.findAll().then(data => {
+      res.render("formAddCourse", { data })
+    }).catch(err => {
+      res.send(err)
+    })
+  }
+
+  static postAdd(req, res) {
+    let { userId } = req.session
+    let { name, description, duration, videoUrl, CategoryId } = req.body
+    Course.create({ name, description, duration, videoUrl, CategoryId })
+      .then(result => {
+        // console.log(result);
+        return UserCourse.create({ UserId: userId, CourseId: result.id }) // Menambah ke tabel UserCourses
+      }).then(result => {
+        res.redirect("/course/list")
+      }).catch(err => {
+        if (err.name === "SequelizeValidationError") {
+          err = err.errors.map(el => {
+            return el.message
+          })
+        }
+        console.log(err);
+        res.send(err)
+      })
   }
 
 }
