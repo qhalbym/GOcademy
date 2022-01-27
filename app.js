@@ -1,5 +1,6 @@
 const express = require('express')
 const Controller = require('./controllers/controller')
+const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
 const port = 3000
@@ -60,7 +61,7 @@ app.get("/user/:id/edit", isLogin, Controller.editFormUser) // form emngedit use
 
 app.post("/user/:id/edit", isLogin, Controller.postEditUser) // mengedit user
 
-app.get("/course", isLogin, isStudent, Controller.getCourse) // pergi ke halaman course untuk student, tampilan card
+app.get("/course", isLogin, isStudent, StudentController.showCourse)
 
 app.get("/course/list", isLogin, isTeacher, Controller.courseListTeacher) //pergi ke halaman course untuk teacher, tampilan tabel
 
@@ -75,6 +76,8 @@ app.post("/course/:courseId/edit", isLogin, isTeacher, Controller.postEditCourse
 app.get("/course/:courseId/delete", isLogin, isTeacher, Controller.delete)
 
 app.get("/logout", Controller.logout)
+
+app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.listen(port, () => {
   console.log("App running on port", port);
