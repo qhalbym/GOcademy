@@ -57,6 +57,16 @@ class Controller {
 
   }
 
+  static logout(req, res) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.redirect("/login")
+      }
+    })
+  }
+
   //Menampilkan tombol pilihan untuk teacher atau student
   static select(req, res) {
     let { error } = req.query
@@ -71,6 +81,8 @@ class Controller {
   static formAddCourse(req, res) {
     res.send("Ini halaman untuk teacher")
   }
+
+
 }
 
 module.exports = Controller

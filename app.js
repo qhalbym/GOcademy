@@ -59,6 +59,8 @@ app.get("/course", isStudent, Controller.getCourse)
 
 app.get("/course/add", isTeacher, Controller.formAddCourse)
 
+app.get("/logout", Controller.logout)
+
 app.listen(port, () => {
   console.log("App running on port", port);
 })
