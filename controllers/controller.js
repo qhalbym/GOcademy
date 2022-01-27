@@ -1,6 +1,7 @@
 const { User, Category, Course, UserCourse, UserDetail } = require("../models")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
+const formatDate = require("../helpers/formatDate")
 
 class Controller {
   //Menampilkan halaman home
@@ -25,12 +26,22 @@ class Controller {
       res.redirect("/login")
     })
       .catch(err => {
+        let errors = []
         if (err.name === "SequelizeValidationError") {
-          err = err.errors.map(el => {
-            return el.message
+          err.errors.forEach(el => {
+            errors.push(el.message)
           })
         }
-        res.send(err)
+        if (err.name === "SequelizeUniqueConstraintError") {
+          err.errors.forEach(el => {
+            errors.push(el.message)
+          })
+        }
+        if (errors.length) {
+          res.send(errors)
+        } else {
+          res.send(err)
+        }
       })
   }
 
@@ -89,7 +100,7 @@ class Controller {
       }
     })
       .then(result => {
-        res.render("userDetail", { result })
+        res.render("userDetail", { result, formatDate })
       }).catch(err => {
         console.log(err);
         res.send(err)
@@ -130,7 +141,7 @@ class Controller {
     })
   }
 
-  //Menampilkan list course
+  //Menampilkan list course card
   static getCourse(req, res) {
     res.render("student")
   }

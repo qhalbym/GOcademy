@@ -1,0 +1,20 @@
+body {
+  background-image: url("./images/e-learning.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* untuk halaman home */
+.home-title {
+  text-align: center;
+  color: white;
+}
+
+.home-subtitle {
+  text-align: center;
+  color: white;
+}
+
+.navbar {
+  background-color: #dbe2ef !important;
+}

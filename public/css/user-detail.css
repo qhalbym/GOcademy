@@ -1,0 +1,16 @@
+.navbar {
+  background-color: #dbe2ef !important;
+}
+
+.user-detail {
+  text-align: center;
+}
+
+.user-detail-form h1 {
+  text-align: center;
+}
+
+.user-detail-form {
+  width: 50%;
+  margin: 0 auto;
+}
