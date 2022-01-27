@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Biotechnology: Crash Course History of Science #40",
+    "description": "The history of discovering what DNA is, what it looks like, and how it works is... complicated. But, in this episode of History of Science, Hank Green does his best to lay out the basics so we can understand the beginnings of Biotechnology.",
+    "duration": 720000,
+    "videoUrl": "https://www.youtube.com/embed/Qo9gcZ0r8k8",
+    "rating": 0,
+    "CategoryId": 1
+  },
+  {
+    "name": "Vue.js Explained in 100 Seconds",
+    "description": "What is Vue.js? Learn the basics of Vue and build your first reactive UI component in just 100 seconds",
+    "duration": 100000,
+    "videoUrl": "https://www.youtube.com/embed/nhBVL41-_Cw",
+    "rating": 0,
+    "CategoryId": 3
+  },
+  {
+    "name": "The Entire History of Ottoman Empire Explained in 7 Minutes",
+    "description": "The year was 1299 AD when a ruler of the Turkish tribes in Anatolia had a dream of a mighty tree growing out of him and covering the whole world. This ruler was Osman I, and with the help of his successors, they built the mightiest Middle Eastern Empire of their time.",
+    "duration": 420000,
+    "videoUrl": "https://www.youtube.com/embed/ZUWzm7yb5oA",
+    "rating": 0,
+    "CategoryId": 3
+  }
+]

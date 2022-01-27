@@ -65,6 +65,8 @@ app.get("/logout", Controller.logout)
 
 app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
+app.get("/course/:id/addRating", isLogin, StudentController.addRating)
+
 app.listen(port, () => {
   console.log("App running on port", port);
 })

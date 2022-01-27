@@ -1,5 +1,5 @@
 const res = require('express/lib/response')
-const {User, UserDetail, Course, Category, Sequelize} = require('../models/index.js');
+const {User, UserDetail, Course, Category, Rating, Sequelize} = require('../models/index.js');
 const session = require("express-session")
 
 class Controller {
@@ -18,9 +18,17 @@ class Controller {
   }
 
   static showCourse(req, res) {
-    Course.findAll()
+    Course.findAll({
+      order: Sequelize.literal('"createdAt" DESC')
+    })
       .then(coursesData => {
+        coursesData.forEach(e => {
+          console.log(e.videoUrl);
+        });
         res.render('student', {coursesData})
+      })
+      .catch( err => {
+        res.send(err);
       })
   }
 
@@ -36,7 +44,7 @@ class Controller {
       .then(result => {
         courseData = result;
         return Course.increment('views', {
-          where: {id: result.id}
+          where: {id: id}
         })
       })
       .then(() => {
@@ -48,11 +56,17 @@ class Controller {
         })
       })
       .then(() => {
-        res.render('watchCourse')
+        res.render('watchCourse', {courseData})
       })
       .catch(err => {
         res.send(err)
       })
+  }
+
+  static addRating(req, res) {
+    req.query()
+    let column = {}
+    Rating.update()
   }
 }
 

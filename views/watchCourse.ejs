@@ -29,6 +29,35 @@
       </div>
     </nav>
   </header>
+  <div style="width: 80vw; margin: 0 auto;">
+    <div style="height: 100%; width: 100%;" class="row">
+      <iframe style="height: 60vh;"
+      src="<%= courseData.dataValues.videoUrl %>">
+      </iframe> 
+    </div><br>
+    <div class="row">
+      <div class="col-md-6">
+        <li style="list-style-type: none;">
+          <ul><h3><%= courseData.name %></h3></ul>
+          <ul><h5><%= courseData.description %></h5></ul>
+        </li>
+      </div>
+      <div class="col-md-6">
+        <li style="list-style-type: none;">
+          <ul><h5>Views : <%= courseData.views %> Times</h5></ul>
+          <ul>
+            <form action="/course/<%= courseData.id %>/addRating" method="get">
+              <input type="radio" name="rating" value="1">
+              <input type="radio" name="rating" value="2">
+              <input type="radio" name="rating" value="3">
+              <input type="radio" name="rating" value="4">
+              <input type="radio" name="rating" value="5">
+            </form>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </div>
   
 </body>
 
