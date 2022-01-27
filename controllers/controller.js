@@ -42,7 +42,6 @@ class Controller {
         username: username
       }
     }).then(result => {
-      console.log(result);
       if (!result) {
         res.redirect("/login?error=Tidak ada user ditemukan")
       } else {
@@ -81,16 +80,45 @@ class Controller {
   }
 
   static courseListTeacher(req, res) {
-    res.render("teacher")
+    Course.findAll({
+      include: {
+        model: Category
+      }
+    })
+      .then(result => {
+        console.log(result);
+        res.render("teacher", { result })
+      }).catch(err => {
+        res.send(err)
+      })
   }
 
   static formAddCourse(req, res) {
     Category.findAll().then(data => {
-      console.log(data);
       res.render("formAddCourse", { data })
     }).catch(err => {
       res.send(err)
     })
+  }
+
+  static postAdd(req, res) {
+    let { userId } = req.session
+    let { name, description, duration, videoUrl, CategoryId } = req.body
+    Course.create({ name, description, duration, videoUrl, CategoryId })
+      .then(result => {
+        // console.log(result);
+        return UserCourse.create({ UserId: userId, CourseId: result.id }) // Menambah ke tabel UserCourses
+      }).then(result => {
+        res.redirect("/course/list")
+      }).catch(err => {
+        if (err.name === "SequelizeValidationError") {
+          err = err.errors.map(el => {
+            return el.message
+          })
+        }
+        console.log(err);
+        res.send(err)
+      })
   }
 
 }

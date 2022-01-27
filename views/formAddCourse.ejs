@@ -30,26 +30,33 @@
     </nav>
   </header>
   <h1>Tambah course</h1>
-  <form>
+  <form action="/course/add" method="post">
     <div class="mb-3">
       <label for="name" class="form-label">Name</label>
-      <input type="text" class="form-control" id="name">
+      <input name="name" type="text" class="form-control" id="name">
     </div>
     <div class="mb-3">
-      <label for="name" class="form-label">Description</label>
-      <input type="text" class="form-control" id="name">
+      <label for="description" class="form-label">Description</label>
+      <input name="description" type="text" class="form-control" id="description">
     </div>
     <div class="mb-3">
-      <label for="name" class="form-label">Duration</label>
-      <input type="text" class="form-control" id="name">
+      <label for="duration" class="form-label">Duration</label>
+      <input name="duration" type="number" class="form-control" id="duration">
     </div>
     <div class="mb-3">
-      <label for="name" class="form-label">VideoURl</label>
-      <input type="text" class="form-control" id="name">
+      <label for="url" class="form-label">VideoURl</label>
+      <input name="videoUrl" type="text" class="form-control" id="url">
     </div>
     <div class="mb-3">
-      <label for="name" class="form-label">Category</label>
-      <input type="text" class="form-control" id="name">
+      <label class="form-label">Category</label>
+      <select name="CategoryId" class="form-select">
+        <option disabled selected>Select...</option>
+        <% data.forEach(el=> { %>
+          <option value="<%= el.id %>">
+            <%= el.name %>
+          </option>
+          <% }) %>
+      </select>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
