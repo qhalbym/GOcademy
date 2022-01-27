@@ -1,6 +1,7 @@
 const res = require('express/lib/response')
 const {User, UserDetail, Course, Category, Rating, Sequelize} = require('../models/index.js');
 const session = require("express-session")
+const getPublisedTime = require('../helpers/publisedTime.js')
 
 class Controller {
   static StudentData(req, res) {
@@ -18,13 +19,33 @@ class Controller {
   }
 
   static showCourse(req, res) {
+    let coursesData
     Course.findAll({
       order: Sequelize.literal('"createdAt" DESC')
     })
-      .then(coursesData => {
-        coursesData.forEach(e => {
+      .then(result => {
+        coursesData = result
+        return User.findAll({
+          include: {
+            model: UserDetail
+          },
+          limit: 10,
+          where: {role: 'student'},
+          order: [[UserDetail, 'learningTime', 'DESC']]
+        })
+      })
+      .then(studentData => {
+        let userId = req.session.userId;
+        let label = [];
+        let data = [];
+        studentData.forEach(e => {
+          label.push(e.UserDetail.firstName)
+          data.push(e.UserDetail.learningTime)
         });
-        res.render('student', {coursesData})
+        coursesData.forEach(e => {
+          e.publisedTime = getPublisedTime(e.createdAt)
+        });
+        res.render('student', {coursesData, label, data, userId})
       })
       .catch( err => {
         res.send(err);
@@ -73,7 +94,6 @@ class Controller {
     let rating = req.query.rating
     Course.findByPk(req.params.id)
       .then(courseData => {
-        console.log(courseData.rating);
         let voteColumn = rating == 1 ? 'one' : rating == 2 ? 'two' : rating == 3 ? 'three' : rating == 4 ? 'four' : 'five';
         return Rating.increment(voteColumn, {
           where: {id: courseData.rating}

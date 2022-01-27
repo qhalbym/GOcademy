@@ -93,16 +93,20 @@ class Controller {
 
   //Menampilkan userdetail
   static getUserDetail(req, res) {
+    let role
     let { id } = req.params
-    UserDetail.findOne({
-      where: {
-        UserId: id
-      }
-    })
+    User.findByPk(id)
       .then(result => {
-        res.render("userDetail", { result, formatDate })
+        role = result.role;
+        return UserDetail.findOne({
+          where: {
+            UserId: id
+          }
+        })
+      })
+      .then(result => {
+        res.render("userDetail", { result, formatDate, role})
       }).catch(err => {
-        console.log(err);
         res.send(err)
       })
   }
@@ -118,7 +122,6 @@ class Controller {
       // console.log(data);
       res.render("formEditUser", { data })
     }).catch(err => {
-      console.log(err);
       res.send(err)
     })
   }
@@ -197,7 +200,6 @@ class Controller {
             return el.message
           })
         }
-        console.log(err);
         res.send(err)
       })
   }
@@ -228,7 +230,6 @@ class Controller {
             return el.message
           })
         }
-        console.log(err);
         res.send(err)
       })
   }
@@ -251,7 +252,6 @@ class Controller {
           return el.message
         })
       }
-      console.log(err);
       res.send(err)
     })
   }
@@ -267,7 +267,6 @@ class Controller {
     }).then(result => {
       res.redirect(`/course/list?id=${userId}`)
     }).catch(err => {
-      console.log(err);
       res.send(err)
     })
   }
