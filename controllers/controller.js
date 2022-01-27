@@ -8,7 +8,7 @@ class Controller {
     res.render("home")
   }
 
-  //Menampilkan form login
+  //Menampilkan form register
   static registerPage(req, res) {
     res.render("register")
   }
@@ -19,7 +19,11 @@ class Controller {
     User.create({ username, email, password, role }).then(result => {
       res.redirect("/login")
     }).catch(err => {
-      console.log(err);
+      if (err.name === "SequelizeValidationError") {
+        err = err.errors.map(el => {
+          return el.message
+        })
+      }
       res.send(err)
     })
   }
@@ -53,7 +57,6 @@ class Controller {
           } else if (result.role === "student") {
             res.redirect("/course")
           }
-          // res.redirect("/select")
         } else {
           res.redirect("/login?error=password tidak cocok") //Kalau password salah
         }
@@ -71,12 +74,6 @@ class Controller {
       }
     })
   }
-
-  //Menampilkan tombol pilihan untuk teacher atau student
-  // static select(req, res) {
-  //   let { error } = req.query
-  //   res.render("selectRole", { error })
-  // }
 
   //Menampilkan list course
   static getCourse(req, res) {

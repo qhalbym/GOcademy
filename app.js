@@ -20,33 +20,11 @@ app.use(session({
 
 const isLogin = function (req, res, next) {
   if (req.session.userId) {
-    // if(req.session.role === "student"){
-    //   res.redirect("/course")
-    // } else if (req.session.role == 'teacher') {
-    //   res.redirect("/course/add")
-    // }
     next()
   } else {
     res.redirect("/login?error=Harap login terlebih dahulu")
   }
 }
-
-// const isStudent = function (req, res, next) {
-//   // console.log(req.session);
-//   if (req.session.role == 'student') {
-//     next()
-//   } else {
-//     res.redirect("/select?error=akses khusus student")
-//   }
-// }
-
-// const isTeacher = function (req, res, next) {
-//   if (req.session.role == 'teacher') {
-//     next()
-//   } else {
-//     res.redirect("/select?error=Akses tidak diijinkan, khusus teacher")
-//   }
-// }
 
 app.get("/", Controller.home)
 
