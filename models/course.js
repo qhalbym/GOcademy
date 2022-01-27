@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     videoUrl: {
       type: DataTypes.STRING,
+      get() {
+        let urlArr = this.getDataValue('videoUrl').split('/embed/');
+        return urlArr[urlArr.length - 1];
+      },
       validate: {
         notEmpty: {
           msg: "URL must be inputted"
