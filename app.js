@@ -94,6 +94,6 @@ app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.get("/course/:id/addRating", isLogin, StudentController.addRating)
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log("App is running on port " + port);
 });
