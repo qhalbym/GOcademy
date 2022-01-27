@@ -1,5 +1,6 @@
 const { User } = require("../models")
 const bcrypt = require("bcryptjs")
+const session = require("express-session")
 
 class Controller {
   //Menampilkan halaman home
@@ -25,7 +26,8 @@ class Controller {
 
   //Login page
   static loginPage(req, res) {
-    res.render("login")
+    let { error } = req.query
+    res.render("login", { error })
   }
 
   //Mengecek login
@@ -36,13 +38,18 @@ class Controller {
         username: username
       }
     }).then(result => {
+      console.log(result);
       if (!result) {
-        res.redirect("/login")
+        res.redirect("/login?error=Tidak ada user ditemukan")
       } else {
+        // gunakan session untuk mengetahui yang login siapa
+        req.session.role = result.role
+        req.session.userId = result.id
+        //Kalau user ditemukan, compare password yang diinput dengan hash
         if (bcrypt.compareSync(password, result.password)) {
           res.redirect("/course")
         } else {
-          res.redirect("/login")
+          res.redirect("/login?error=password tidak cocok") //Kalau password salah
         }
       }
     })
@@ -52,6 +59,10 @@ class Controller {
   //Menampilkan list course
   static getCourse(req, res) {
     res.send("<h1>Ini list course</h1>")
+  }
+
+  static formAddCourse(req, res) {
+    res.send("Ini halaman untuk teacher")
   }
 }
 
