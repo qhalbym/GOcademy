@@ -42,12 +42,18 @@ class Controller {
       if (!result) {
         res.redirect("/login?error=Tidak ada user ditemukan")
       } else {
-        // gunakan session untuk mengetahui yang login siapa
-        req.session.role = result.role
-        req.session.userId = result.id
+
         //Kalau user ditemukan, compare password yang diinput dengan hash
         if (bcrypt.compareSync(password, result.password)) {
-          res.redirect("/course")
+          // gunakan session untuk mengetahui yang login siapa
+          req.session.role = result.role
+          req.session.userId = result.id
+          if (result.role === "teacher") {
+            res.redirect("/course/add")
+          } else if (result.role === "student") {
+            res.redirect("/course")
+          }
+          // res.redirect("/select")
         } else {
           res.redirect("/login?error=password tidak cocok") //Kalau password salah
         }
@@ -56,14 +62,31 @@ class Controller {
 
   }
 
+  static logout(req, res) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.redirect("/login")
+      }
+    })
+  }
+
+  //Menampilkan tombol pilihan untuk teacher atau student
+  // static select(req, res) {
+  //   let { error } = req.query
+  //   res.render("selectRole", { error })
+  // }
+
   //Menampilkan list course
   static getCourse(req, res) {
-    res.send("<h1>Ini list course</h1>")
+    res.render("student")
   }
 
   static formAddCourse(req, res) {
-    res.send("Ini halaman untuk teacher")
+    res.render("teacher")
   }
+
 }
 
 module.exports = Controller
