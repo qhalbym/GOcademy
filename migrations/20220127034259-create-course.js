@@ -21,7 +21,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       rating: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        refererences: {
+          model: 'Rating',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       CategoryId: {
         type: Sequelize.INTEGER,

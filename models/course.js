@@ -66,7 +66,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, option) => {
-        instance.rating = 0
         instance.views = 0
       }
     },
