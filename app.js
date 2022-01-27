@@ -28,18 +28,18 @@ const isLogin = function (req, res, next) {
 
 const isStudent = function (req, res, next) {
   // console.log(req.session);
-  if (req.session == 'student') {
+  if (req.session.role == 'student') {
     next()
   } else {
-    res.redirect("/login?error=akses khusus student")
+    res.redirect("/select?error=akses khusus student")
   }
 }
 
 const isTeacher = function (req, res, next) {
-  if (req.session == 'teacher') {
+  if (req.session.role == 'teacher') {
     next()
   } else {
-    res.redirect("/login?error=Akses tidak diijinkan, khusus teacher")
+    res.redirect("/select?error=Akses tidak diijinkan, khusus teacher")
   }
 }
 
@@ -53,9 +53,11 @@ app.get("/login", Controller.loginPage)
 
 app.post("/login", Controller.login)
 
-app.get("/course", isLogin, isStudent, Controller.getCourse)
+app.get("/select", isLogin, Controller.select)
 
-app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse)
+app.get("/course", isStudent, Controller.getCourse)
+
+app.get("/course/add", isTeacher, Controller.formAddCourse)
 
 app.listen(port, () => {
   console.log("App running on port", port);

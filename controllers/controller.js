@@ -42,18 +42,25 @@ class Controller {
       if (!result) {
         res.redirect("/login?error=Tidak ada user ditemukan")
       } else {
-        // gunakan session untuk mengetahui yang login siapa
-        req.session.role = result.role
-        req.session.userId = result.id
+
         //Kalau user ditemukan, compare password yang diinput dengan hash
         if (bcrypt.compareSync(password, result.password)) {
-          res.redirect("/course")
+          // gunakan session untuk mengetahui yang login siapa
+          req.session.role = result.role
+          req.session.userId = result.id
+          res.redirect("/select")
         } else {
           res.redirect("/login?error=password tidak cocok") //Kalau password salah
         }
       }
     })
 
+  }
+
+  //Menampilkan tombol pilihan untuk teacher atau student
+  static select(req, res) {
+    let { error } = req.query
+    res.render("selectRole", { error })
   }
 
   //Menampilkan list course
