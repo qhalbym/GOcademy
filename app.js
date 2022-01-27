@@ -16,6 +16,9 @@ app.use(session({
   }
 }))
 
+//add static css file
+app.use(express.static("public"))
+
 //Fungsi middleware untuk mengecek siapa yang login
 
 const isLogin = function (req, res, next) {

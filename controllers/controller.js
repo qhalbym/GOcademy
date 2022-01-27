@@ -1,6 +1,7 @@
 const { User, Category, Course, UserCourse, UserDetail } = require("../models")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
+const formatDate = require("../helpers/formatDate")
 
 class Controller {
   //Menampilkan halaman home
@@ -89,7 +90,7 @@ class Controller {
       }
     })
       .then(result => {
-        res.render("userDetail", { result })
+        res.render("userDetail", { result, formatDate })
       }).catch(err => {
         console.log(err);
         res.send(err)
