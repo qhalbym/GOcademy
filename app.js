@@ -1,5 +1,6 @@
 const express = require('express')
 const Controller = require('./controllers/controller')
+const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
 const port = 3000
@@ -38,11 +39,13 @@ app.post("/login", Controller.login)
 
 // app.get("/select", isLogin, Controller.select)
 
-app.get("/course", isLogin, Controller.getCourse)
+app.get("/course", isLogin, StudentController.showCourse)
 
 app.get("/course/add", isLogin, Controller.formAddCourse)
 
 app.get("/logout", Controller.logout)
+
+app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.listen(port, () => {
   console.log("App running on port", port);
