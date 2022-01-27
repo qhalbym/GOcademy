@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Course.belongsTo(models.Category, { foreignKey: 'CategoryId' })
-      Course.belongsToMany(models.User, { through: UserCourse })
+      Course.belongsToMany(models.User, { through: models.UserCourse })
     }
   }
   Course.init({
