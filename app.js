@@ -3,7 +3,8 @@ const Controller = require('./controllers/controller')
 const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
-const port = 3000
+const port = process.env.PORT || 8000;
+
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
@@ -93,6 +94,6 @@ app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.get("/course/:id/addRating", isLogin, StudentController.addRating)
 
-app.listen(port, () => {
-  console.log("App running on port", port);
-})
+server.listen(port, () => {
+  console.log("App is running on port " + port);
+});
