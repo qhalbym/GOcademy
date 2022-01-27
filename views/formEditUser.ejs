@@ -13,9 +13,9 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav style="background-color: #0b3142;" class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">GoCademy</a>
+        <a style="color: white; font-size: 20pt;" class="navbar-brand" href="/"><strong>Go</strong>Cademy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -23,13 +23,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" href="/logout">Logout</a>
+              <a style="color: white;" class="nav-link active" aria-current="page" href="/course">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a style="color: white;" class="nav-link active" aria-current="page" href="/user/result.UserId">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a style="color: white;" class="nav-link active" aria-current="page" href="/logout">Log out</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-  </header>
+  </header><br>
   <section class="user-detail-form">
     <h1>Edit User</h1>
     <form action="/user/<%= data.UserId %>/edit" method="post">
@@ -46,6 +52,7 @@
         <input value="<%= data.changeDate %>" name="dateOfBirth" type="date" class="form-control" id="date">
       </div>
       <button type="submit" class="btn btn-primary">Edit</button>
+      <a href="/user/<%= data.UserId %>" class="btn btn-secondary">Back</a>
     </form>
   </section>
 
