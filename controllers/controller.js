@@ -26,12 +26,22 @@ class Controller {
       res.redirect("/login")
     })
       .catch(err => {
+        let errors = []
         if (err.name === "SequelizeValidationError") {
-          err = err.errors.map(el => {
-            return el.message
+          err.errors.forEach(el => {
+            errors.push(el.message)
           })
         }
-        res.send(err)
+        if (err.name === "SequelizeUniqueConstraintError") {
+          err.errors.forEach(el => {
+            errors.push(el.message)
+          })
+        }
+        if (errors.length) {
+          res.send(errors)
+        } else {
+          res.send(err)
+        }
       })
   }
 
