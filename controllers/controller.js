@@ -16,16 +16,22 @@ class Controller {
   //Dari POST "/login"
   static register(req, res) {
     let { username, email, password, role } = req.body
+    let userData
     User.create({ username, email, password, role }).then(result => {
+      console.log(result);
+      userData = result
+      return UserDetail.create({ UserId: result.id, learningTime: 0 }) //Membuat default userdetail
+    }).then(data => {
       res.redirect("/login")
-    }).catch(err => {
-      if (err.name === "SequelizeValidationError") {
-        err = err.errors.map(el => {
-          return el.message
-        })
-      }
-      res.send(err)
     })
+      .catch(err => {
+        if (err.name === "SequelizeValidationError") {
+          err = err.errors.map(el => {
+            return el.message
+          })
+        }
+        res.send(err)
+      })
   }
 
   //Login page
@@ -52,9 +58,9 @@ class Controller {
           req.session.role = result.role
           req.session.userId = result.id
           if (result.role === "teacher") {
-            res.redirect("/course/list")
+            res.redirect(`/course/list?id=${result.id}`)
           } else if (result.role === "student") {
-            res.redirect("/course")
+            res.redirect(`/course?id=${result.id}`)
           }
         } else {
           res.redirect("/login?error=password tidak cocok") //Kalau password salah
@@ -74,21 +80,60 @@ class Controller {
     })
   }
 
+  //Menampilkan userdetail
+  static getUserDetail(req, res) {
+    let { id } = req.params
+    UserDetail.findOne({
+      where: {
+        UserId: id
+      }
+    })
+      .then(result => {
+        res.render("userDetail", { result })
+      }).catch(err => {
+        console.log(err);
+        res.send(err)
+      })
+  }
+
+  //Menampilkan form edit user
+  static editFormUser(req, res) {
+    let UserId = req.params.id
+    UserDetail.findOne({
+      where: {
+        UserId: UserId
+      }
+    }).then(data => {
+      console.log(data);
+      res.render("formEditUser", { data })
+    }).catch(err => {
+      console.log(err);
+      res.send(err)
+    })
+  }
+
   //Menampilkan list course
   static getCourse(req, res) {
     res.render("student")
   }
 
   static courseListTeacher(req, res) {
+    let { id } = req.query
+    console.log(id);
+
+    let courseData
     Course.findAll({
       include: {
         model: Category
       }
+    }).then(result => {
+      courseData = result
+      return User.findByPk(id)
+    }).then(data => {
+      console.log(data);
+      res.render("teacher", { courseData, userData: data })
     })
-      .then(result => {
-        console.log(result);
-        res.render("teacher", { result })
-      }).catch(err => {
+      .catch(err => {
         res.send(err)
       })
   }
@@ -119,6 +164,40 @@ class Controller {
         console.log(err);
         res.send(err)
       })
+  }
+
+  static editCourseForm(req, res) {
+    let id = req.params.courseId
+    console.log(req.params);
+
+    let courseData
+    Course.findOne({
+      where: {
+        id: id
+      },
+      include: {
+        model: Category
+      }
+    }).then(data => {
+      courseData = data
+      return Category.findAll()
+    }).then(result => {
+      // console.log(courseData.Category, result);
+      res.render("formEditCourse", { courseData, result })
+    })
+      .catch(err => {
+        if (err.name === "SequelizeValidationError") {
+          err = err.errors.map(el => {
+            return el.message
+          })
+        }
+        console.log(err);
+        res.send(err)
+      })
+  }
+
+  static postEditCourse(req, res) {
+    res.send("test")
   }
 
 }

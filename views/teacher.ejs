@@ -29,7 +29,9 @@
       </div>
     </nav>
   </header>
-  <h1>Ini halaman khusus Teacher</h1>
+  <h1>Ini halaman teacher: <%= userData.username %>
+  </h1>
+  <a class="btn btn-primary" href="/user/<%= userData.id %>">User detail</a>
   <a class="btn btn-primary" href="/course/add">Add Course</a>
   <table class="table">
     <thead>
@@ -43,7 +45,7 @@
       </tr>
     </thead>
     <tbody>
-      <% result.forEach(el=> { %>
+      <% courseData.forEach(el=> { %>
         <tr>
           <td>
             <%= el.name %>
