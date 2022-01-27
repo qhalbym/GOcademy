@@ -29,51 +29,53 @@
       </div>
     </nav>
   </header>
-  <h1>Ini halaman teacher: <%= userData.username %>
-  </h1>
-  <a class="btn btn-primary" href="/user/<%= userData.id %>">User detail</a>
-  <a class="btn btn-primary" href="/course/add">Add Course</a>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Rating</th>
-        <th scope="col">Category</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% courseData.forEach(el=> { %>
-        <tr>
-          <td>
-            <%= el.name %>
-          </td>
-          <td>
-            <%= el.description %>
-          </td>
-          <td>
-            <%= el.duration %>
-          </td>
-          <td>
-            <%= el.rating %>
-          </td>
-          <td>
-            <%= el.Category.name %>
-          </td>
-          <td>
-            <a class="btn btn-secondary" href="/course/<%= el.id %>/edit">Edit Course</a>
-            <a class="btn btn-danger" href="/course/<%= el.id %>/delete">Delete Course</a>
-          </td>
-        </tr>
-        <%}) %>
-    </tbody>
-  </table>
+  <% if(userData) { %>
+    <h1>Ini halaman teacher dengan username: <%= userData.username %>
+    </h1>
+    <a class="btn btn-primary" href="/user/<%= userData.id %>">User detail</a>
+    <% } %>
+      <a class="btn btn-primary" href="/course/add">Add Course</a>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Category</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% courseData.forEach(el=> { %>
+            <tr>
+              <td>
+                <%= el.name %>
+              </td>
+              <td>
+                <%= el.description %>
+              </td>
+              <td>
+                <%= el.duration %>
+              </td>
+              <td>
+                <%= el.rating %>
+              </td>
+              <td>
+                <%= el.Category.name %>
+              </td>
+              <td>
+                <a class="btn btn-secondary" href="/course/<%= el.id %>/edit">Edit Course</a>
+                <a class="btn btn-danger" href="/course/<%= el.id %>/delete">Delete Course</a>
+              </td>
+            </tr>
+            <%}) %>
+        </tbody>
+      </table>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+        </script>
 </body>
 
 </html>

@@ -56,9 +56,9 @@ app.post("/login", Controller.login)
 
 app.get("/user/:id", isLogin, Controller.getUserDetail) //Menampilkan user detail
 
-app.get("/user/:id/edit",isLogin, Controller.editFormUser) // mengedit form user
+app.get("/user/:id/edit", isLogin, Controller.editFormUser) // form emngedit user
 
-// app.post("/user/:id/edit", Controller.postEditUser) // mengedit form user
+app.post("/user/:id/edit", isLogin, Controller.postEditUser) // mengedit user
 
 app.get("/course", isLogin, isStudent, Controller.getCourse) // pergi ke halaman course untuk student, tampilan card
 
@@ -71,6 +71,8 @@ app.post("/course/add", isLogin, isTeacher, Controller.postAdd)
 app.get("/course/:courseId/edit", isLogin, isTeacher, Controller.editCourseForm) //menampilkan form untuk mengedit course
 
 app.post("/course/:courseId/edit", isLogin, isTeacher, Controller.postEditCourse)
+
+app.get("/course/:courseId/delete", isLogin, isTeacher, Controller.delete)
 
 app.get("/logout", Controller.logout)
 

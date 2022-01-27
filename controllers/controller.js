@@ -18,9 +18,9 @@ class Controller {
     let { username, email, password, role } = req.body
     let userData
     User.create({ username, email, password, role }).then(result => {
-      console.log(result);
+      // console.log(result);
       userData = result
-      return UserDetail.create({ UserId: result.id, learningTime: 0 }) //Membuat default userdetail
+      return UserDetail.create({ UserId: result.id, learningTime: 0, dateOfBirth: new Date("01-01-2000") }) //Membuat default userdetail
     }).then(data => {
       res.redirect("/login")
     })
@@ -104,8 +104,26 @@ class Controller {
         UserId: UserId
       }
     }).then(data => {
-      console.log(data);
+      // console.log(data);
       res.render("formEditUser", { data })
+    }).catch(err => {
+      console.log(err);
+      res.send(err)
+    })
+  }
+
+  // Mengedit user detail
+  static postEditUser(req, res) {
+    let { id } = req.params
+    // console.log(req.body);
+    let { firstName, lastName, dateOfBirth } = req.body
+    UserDetail.update({ firstName, lastName, dateOfBirth }, {
+      where: {
+        UserId: id
+      }
+    }).then(result => {
+      // console.log(result);
+      res.redirect(`/user/${id}`)
     }).catch(err => {
       console.log(err);
       res.send(err)
@@ -117,9 +135,11 @@ class Controller {
     res.render("student")
   }
 
+
+  //Menampilkan tabel list course untuk teacher
   static courseListTeacher(req, res) {
     let { id } = req.query
-    console.log(id);
+    // console.log(id);
 
     let courseData
     Course.findAll({
@@ -130,7 +150,7 @@ class Controller {
       courseData = result
       return User.findByPk(id)
     }).then(data => {
-      console.log(data);
+      // console.log(data);
       res.render("teacher", { courseData, userData: data })
     })
       .catch(err => {
@@ -138,6 +158,7 @@ class Controller {
       })
   }
 
+  // Menampilkan form untuk menambah course
   static formAddCourse(req, res) {
     Category.findAll().then(data => {
       res.render("formAddCourse", { data })
@@ -146,6 +167,7 @@ class Controller {
     })
   }
 
+  //menambah course
   static postAdd(req, res) {
     let { userId } = req.session
     let { name, description, duration, videoUrl, CategoryId } = req.body
@@ -154,7 +176,7 @@ class Controller {
         // console.log(result);
         return UserCourse.create({ UserId: userId, CourseId: result.id }) // Menambah ke tabel UserCourses
       }).then(result => {
-        res.redirect("/course/list")
+        res.redirect(`/course/list?id=${userId}`)
       }).catch(err => {
         if (err.name === "SequelizeValidationError") {
           err = err.errors.map(el => {
@@ -166,9 +188,10 @@ class Controller {
       })
   }
 
+  //menampilkan form untuk mengedit course
   static editCourseForm(req, res) {
     let id = req.params.courseId
-    console.log(req.params);
+    // console.log(req.params);
 
     let courseData
     Course.findOne({
@@ -196,8 +219,43 @@ class Controller {
       })
   }
 
+  //mengedit course
   static postEditCourse(req, res) {
-    res.send("test")
+    let { userId } = req.session
+    let { courseId } = req.params
+    let { name, description, duration, videoUrl, CategoryId } = req.body
+    Course.update({ name, description, duration, videoUrl, CategoryId }, {
+      where: {
+        id: courseId
+      }
+    }).then(result => {
+      // console.log(result);
+      res.redirect(`/course/list?id=${userId}`)
+    }).catch(err => {
+      if (err.name === "SequelizeValidationError") {
+        err = err.errors.map(el => {
+          return el.message
+        })
+      }
+      console.log(err);
+      res.send(err)
+    })
+  }
+
+  //Menghapus course
+  static delete(req, res) {
+    let { courseId } = req.params
+    let { userId } = req.session
+    Course.destroy({
+      where: {
+        id: courseId
+      }
+    }).then(result => {
+      res.redirect(`/course/list?id=${userId}`)
+    }).catch(err => {
+      console.log(err);
+      res.send(err)
+    })
   }
 
 }

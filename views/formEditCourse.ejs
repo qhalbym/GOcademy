@@ -24,13 +24,16 @@
             <li class="nav-item">
               <a class="btn btn-primary" href="/logout">Logout</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/register">Register</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
   <h1>Edit course</h1>
-  <form action="/course/add" method="post">
+  <form action="/course/<%= courseData.id %>/edit" method="post">
     <div class="mb-3">
       <label for="name" class="form-label">Name</label>
       <input value="<%= courseData.name %>" name="name" type="text" class="form-control" id="name">
