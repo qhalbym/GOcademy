@@ -26,6 +26,15 @@ const isLogin = function (req, res, next) {
   }
 }
 
+const isUserId = function (req, res, next) {
+  let { id } = req.params
+  if (req.session.userId == id) {
+    next()
+  } else {
+    res.redirect("/login?error=Anda tidak bisa mengedit user lain")
+  }
+}
+
 const isTeacher = function (req, res, next) {
   if (req.session.role == 'teacher') {
     next()
@@ -54,11 +63,11 @@ app.post("/login", Controller.login)
 
 // app.get("/select", isLogin, Controller.select)
 
-app.get("/user/:id", isLogin, Controller.getUserDetail) //Menampilkan user detail
+app.get("/user/:id", isLogin, isUserId, Controller.getUserDetail) //Menampilkan user detail
 
-app.get("/user/:id/edit", isLogin, Controller.editFormUser) // form emngedit user
+app.get("/user/:id/edit", isLogin, isUserId, Controller.editFormUser) // form emngedit user
 
-app.post("/user/:id/edit", isLogin, Controller.postEditUser) // mengedit user
+app.post("/user/:id/edit", isLogin, isUserId, Controller.postEditUser) // mengedit user
 
 app.get("/course", isLogin, isStudent, Controller.getCourse) // pergi ke halaman course untuk student, tampilan card
 

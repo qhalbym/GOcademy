@@ -130,7 +130,7 @@ class Controller {
     })
   }
 
-  //Menampilkan list course
+  //Menampilkan list course card
   static getCourse(req, res) {
     res.render("student")
   }
