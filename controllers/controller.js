@@ -48,7 +48,12 @@ class Controller {
           // gunakan session untuk mengetahui yang login siapa
           req.session.role = result.role
           req.session.userId = result.id
-          res.redirect("/select")
+          if (result.role === "teacher") {
+            res.redirect("/course/add")
+          } else if (result.role === "student") {
+            res.redirect("/course")
+          }
+          // res.redirect("/select")
         } else {
           res.redirect("/login?error=password tidak cocok") //Kalau password salah
         }
@@ -68,20 +73,19 @@ class Controller {
   }
 
   //Menampilkan tombol pilihan untuk teacher atau student
-  static select(req, res) {
-    let { error } = req.query
-    res.render("selectRole", { error })
-  }
+  // static select(req, res) {
+  //   let { error } = req.query
+  //   res.render("selectRole", { error })
+  // }
 
   //Menampilkan list course
   static getCourse(req, res) {
-    res.send("<h1>Ini list course</h1>")
+    res.render("student")
   }
 
   static formAddCourse(req, res) {
-    res.send("Ini halaman untuk teacher")
+    res.render("teacher")
   }
-
 
 }
 
