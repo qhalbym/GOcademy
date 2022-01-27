@@ -23,7 +23,6 @@ class Controller {
     })
       .then(coursesData => {
         coursesData.forEach(e => {
-          console.log(e.videoUrl);
         });
         res.render('student', {coursesData})
       })
@@ -56,6 +55,13 @@ class Controller {
         })
       })
       .then(() => {
+        return Rating.findByPk(courseData.rating)
+      })
+      .then(ratingData => {
+        let totalRating = (ratingData.five * 5) + (ratingData.four * 4) + (ratingData.three * 3) + (ratingData.two * 2) + (ratingData.one * 1)
+        let totalVote = ratingData.one + ratingData.two + ratingData.three + ratingData.four + ratingData.five;
+        let avgRating = totalRating / totalVote;
+        courseData.starRating = avgRating
         res.render('watchCourse', {courseData})
       })
       .catch(err => {
@@ -64,9 +70,21 @@ class Controller {
   }
 
   static addRating(req, res) {
-    req.query()
-    let column = {}
-    Rating.update()
+    let rating = req.query.rating
+    Course.findByPk(req.params.id)
+      .then(courseData => {
+        console.log(courseData.rating);
+        let voteColumn = rating == 1 ? 'one' : rating == 2 ? 'two' : rating == 3 ? 'three' : rating == 4 ? 'four' : 'five';
+        return Rating.increment(voteColumn, {
+          where: {id: courseData.rating}
+        })
+      })
+      .then(()=> {
+        res.redirect(`/course/${req.params.id}/watch`)
+      })
+      .catch(err => {
+        res.send(err)
+      })
   }
 }
 

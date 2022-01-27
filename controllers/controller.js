@@ -1,4 +1,4 @@
-const { User, Category, Course, UserCourse, UserDetail } = require("../models")
+const { User, Category, Course, Rating, UserCourse, UserDetail } = require("../models")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
 const formatDate = require("../helpers/formatDate")
@@ -182,11 +182,14 @@ class Controller {
   static postAdd(req, res) {
     let { userId } = req.session
     let { name, description, duration, videoUrl, CategoryId } = req.body
-    Course.create({ name, description, duration, videoUrl, CategoryId })
+    Rating.create({one: 0, two: 0, three: 0, four: 0, five: 0})
       .then(result => {
+        return Course.create({ name, description, duration, rating: result.id, videoUrl, CategoryId })
+      }).then(result => {
         // console.log(result);
         return UserCourse.create({ UserId: userId, CourseId: result.id }) // Menambah ke tabel UserCourses
       }).then(result => {
+        Rating.create({one: 0, two: 0, three: 0, four: 0, five: 0})
         res.redirect(`/course/list?id=${userId}`)
       }).catch(err => {
         if (err.name === "SequelizeValidationError") {
