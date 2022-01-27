@@ -3,21 +3,21 @@
     "username": "postgres",
     "password": "postgres",
     "database": "gocademy_db",
-    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432/dcied4u12n8gpr",
+    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "postgres",
     "database": "gocademy_db",
-    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432/dcied4u12n8gpr",
+    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
     "password": "postgres",
     "database": "gocademy_db",
-    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432/dcied4u12n8gpr",
+    "host": "ec2-35-174-35-242.compute-1.amazonaws.com:5432",
     "dialect": "postgres"
   }
 }
