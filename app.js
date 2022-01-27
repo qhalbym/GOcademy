@@ -1,5 +1,6 @@
 const express = require('express')
 const Controller = require('./controllers/controller')
+const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
 const port = 3000
@@ -53,9 +54,7 @@ app.get("/login", Controller.loginPage)
 app.post("/login", Controller.login)
 
 // app.get("/select", isLogin, Controller.select)
-
-app.get("/course", isLogin, isStudent, Controller.getCourse) // pergi ke halaman course untuk student, tampilan card
-
+app.get("/course", isLogin, StudentController.showCourse)
 app.get("/course/list", isLogin, isTeacher, Controller.courseListTeacher) //pergi ke halaman course untuk teacher, tampilan tabel
 
 app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse)
@@ -63,6 +62,8 @@ app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse)
 app.post("/course/add", isLogin, isTeacher, Controller.postAdd)
 
 app.get("/logout", Controller.logout)
+
+app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.listen(port, () => {
   console.log("App running on port", port);
