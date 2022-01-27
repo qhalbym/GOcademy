@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User, Category, Course, UserCourse, UserDetail } = require("../models")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
 
@@ -53,7 +53,7 @@ class Controller {
           req.session.role = result.role
           req.session.userId = result.id
           if (result.role === "teacher") {
-            res.redirect("/course/add")
+            res.redirect("/course/list")
           } else if (result.role === "student") {
             res.redirect("/course")
           }
@@ -80,8 +80,17 @@ class Controller {
     res.render("student")
   }
 
-  static formAddCourse(req, res) {
+  static courseListTeacher(req, res) {
     res.render("teacher")
+  }
+
+  static formAddCourse(req, res) {
+    Category.findAll().then(data => {
+      console.log(data);
+      res.render("formAddCourse", { data })
+    }).catch(err => {
+      res.send(err)
+    })
   }
 
 }

@@ -40,6 +40,8 @@ app.post("/login", Controller.login)
 
 app.get("/course", isLogin, Controller.getCourse)
 
+app.get("/course/list", isLogin, Controller.courseListTeacher)
+
 app.get("/course/add", isLogin, Controller.formAddCourse)
 
 app.get("/logout", Controller.logout)
