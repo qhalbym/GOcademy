@@ -1,9 +1,8 @@
 const express = require('express')
 const Controller = require('./controllers/controller')
-const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
-const port = 3000;
+const port = 3000
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
@@ -17,9 +16,6 @@ app.use(session({
   }
 }))
 
-//add static css file
-app.use(express.static("public"))
-
 //Fungsi middleware untuk mengecek siapa yang login
 
 const isLogin = function (req, res, next) {
@@ -30,28 +26,20 @@ const isLogin = function (req, res, next) {
   }
 }
 
-const isUserId = function (req, res, next) {
-  let { id } = req.params
-  if (req.session.userId == id) {
+const isStudent = function (req, res, next) {
+  // console.log(req.session);
+  if (req.session == 'student') {
     next()
   } else {
-    res.redirect("/login?error=Anda tidak bisa mengedit user lain")
+    res.redirect("/login?error=akses khusus student")
   }
 }
 
 const isTeacher = function (req, res, next) {
-  if (req.session.role == 'teacher') {
+  if (req.session == 'teacher') {
     next()
   } else {
-    res.redirect("/login?error=Fitur hanya untuk teacher")
-  }
-}
-
-const isStudent = function (req, res, next) {
-  if (req.session.role == 'student') {
-    next()
-  } else {
-    res.redirect("/login?error=fitur hanya untuk student")
+    res.redirect("/login?error=Akses tidak diijinkan, khusus teacher")
   }
 }
 
@@ -64,8 +52,6 @@ app.post("/register", Controller.register)
 app.get("/login", Controller.loginPage)
 
 app.post("/login", Controller.login)
-
-// app.get("/select", isLogin, Controller.select)
 
 app.get("/course", isLogin, isStudent, StudentController.showCourse)
 
@@ -91,8 +77,8 @@ app.get("/logout", Controller.logout)
 
 app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
-app.get("/course/:id/addRating", isLogin, StudentController.addRating)
+app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse)
 
 app.listen(port, () => {
-  console.log("App is running on port " + port);
-});
+  console.log("App running on port", port);
+})
