@@ -53,7 +53,29 @@ app.get("/login", Controller.loginPage)
 
 app.post("/login", Controller.login)
 
-app.get("/course", isLogin, isStudent, Controller.getCourse)
+app.get("/course", isLogin, isStudent, StudentController.showCourse)
+
+app.get("/course/list", isLogin, isTeacher, Controller.courseListTeacher) //pergi ke halaman course untuk teacher, tampilan tabel
+
+app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse) // menampilkan form untuk add course baru
+
+app.get("/user/:id", isLogin, isUserId, Controller.getUserDetail) //Menampilkan user detail
+
+app.post("/course/add", isLogin, isTeacher, Controller.postAdd)
+
+app.get("/user/:id/edit", isLogin, isUserId, Controller.editFormUser) // form emngedit user
+
+app.post("/user/:id/edit", isLogin, isUserId, Controller.postEditUser) // mengedit user
+
+app.get("/course/:courseId/edit", isLogin, isTeacher, Controller.editCourseForm) //menampilkan form untuk mengedit course
+
+app.post("/course/:courseId/edit", isLogin, isTeacher, Controller.postEditCourse)
+
+app.get("/course/:courseId/delete", isLogin, isTeacher, Controller.delete)
+
+app.get("/logout", Controller.logout)
+
+app.get("/course/:id/watch", isLogin, StudentController.watchCourse)
 
 app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse)
 
