@@ -81,8 +81,6 @@ app.get("/user/:id/edit", isLogin, isUserId, Controller.editFormUser) // form em
 
 app.post("/user/:id/edit", isLogin, isUserId, Controller.postEditUser) // mengedit user
 
-
-
 app.get("/course/:courseId/edit", isLogin, isTeacher, Controller.editCourseForm) //menampilkan form untuk mengedit course
 
 app.post("/course/:courseId/edit", isLogin, isTeacher, Controller.postEditCourse)
