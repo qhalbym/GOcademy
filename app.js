@@ -3,8 +3,7 @@ const Controller = require('./controllers/controller')
 const StudentController = require('./controllers/student')
 const app = express()
 const session = require("express-session")
-const port = process.env.PORT || 8000;
-
+const port = 3000;
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
@@ -68,19 +67,21 @@ app.post("/login", Controller.login)
 
 // app.get("/select", isLogin, Controller.select)
 
-app.get("/user/:id", isLogin, isUserId, Controller.getUserDetail) //Menampilkan user detail
-
-app.get("/user/:id/edit", isLogin, isUserId, Controller.editFormUser) // form emngedit user
-
-app.post("/user/:id/edit", isLogin, isUserId, Controller.postEditUser) // mengedit user
-
 app.get("/course", isLogin, isStudent, StudentController.showCourse)
 
 app.get("/course/list", isLogin, isTeacher, Controller.courseListTeacher) //pergi ke halaman course untuk teacher, tampilan tabel
 
 app.get("/course/add", isLogin, isTeacher, Controller.formAddCourse) // menampilkan form untuk add course baru
 
+app.get("/user/:id", isLogin, isUserId, Controller.getUserDetail) //Menampilkan user detail
+
 app.post("/course/add", isLogin, isTeacher, Controller.postAdd)
+
+app.get("/user/:id/edit", isLogin, isUserId, Controller.editFormUser) // form emngedit user
+
+app.post("/user/:id/edit", isLogin, isUserId, Controller.postEditUser) // mengedit user
+
+
 
 app.get("/course/:courseId/edit", isLogin, isTeacher, Controller.editCourseForm) //menampilkan form untuk mengedit course
 

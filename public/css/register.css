@@ -1,3 +1,13 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("./images/BG.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center; 
+}
+
 .register-title {
   text-align: center;
 }

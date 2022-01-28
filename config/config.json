@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "wkjrmcpbyzmnyu",
-    "password": "8240c750461040dde227fdde91c9ee5ce2bbdd644ed16850b9484e967c999aef",
-    "database": "dcied4u12n8gpr",
-    "host": "ec2-35-174-35-242.compute-1.amazonaws.com",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "gocademy_db",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "wkjrmcpbyzmnyu",
-    "password": "8240c750461040dde227fdde91c9ee5ce2bbdd644ed16850b9484e967c999aef",
-    "database": "dcied4u12n8gpr",
-    "host": "ec2-35-174-35-242.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "production": {
     "username": "wkjrmcpbyzmnyu",
     "password": "8240c750461040dde227fdde91c9ee5ce2bbdd644ed16850b9484e967c999aef",
     "database": "dcied4u12n8gpr",
     "host": "ec2-35-174-35-242.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "dialect": "mysql"
   }
 }
