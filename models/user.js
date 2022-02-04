@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.UserDetail, { foreignKey: "UserId" })
+      User.belongsToMany(models.Course, { through: models.UserCourse })
     }
   }
   User.init({
@@ -41,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Password must be inputted"
         },
         len: {
-          arg: [6],
-          msg: 'password minimum 6 character'
+          args: [8],
+          msg: 'password minimum 8 character'
         }
       }
     },
@@ -58,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, option) => {
-        console.log(instance);
         let salt = bcrypt.genSaltSync(9);
         let hash = bcrypt.hashSync(instance.password, salt);
         instance.password = hash
